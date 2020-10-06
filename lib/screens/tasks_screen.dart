@@ -1,10 +1,16 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list_app_fluter/screens/add_task_screen.dart';
 import 'package:todo_list_app_fluter/widgets/task_list_item.dart';
 
 // Custom widget for items of listview.
 
 class TasksScreen extends StatelessWidget {
+  // Bottom sheet
+  bool isEnabled = false;
+
+  Widget buildBottomSheet(BuildContext context) => AddTaskScreen();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +21,18 @@ class TasksScreen extends StatelessWidget {
           Icons.add,
           size: 40.0,
         ),
-        onPressed: () {},
+        onPressed: () {
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => SingleChildScrollView(
+                    child: Container(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                      child: AddTaskScreen(),
+                    ),
+                  ),
+              isScrollControlled: true);
+        },
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +83,7 @@ class TasksScreen extends StatelessWidget {
                 children: [],
               ),
             ),
-          )
+          ),
         ],
       ),
     );
