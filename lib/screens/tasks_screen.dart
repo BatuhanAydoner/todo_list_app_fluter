@@ -1,15 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:todo_list_app_fluter/model/task.dart';
 import 'package:todo_list_app_fluter/screens/add_task_screen.dart';
-import 'package:todo_list_app_fluter/widgets/task_list_item.dart';
+import 'package:todo_list_app_fluter/widgets/task_list.dart';
 
-// Custom widget for items of listview.
-
-class TasksScreen extends StatelessWidget {
+class TasksScreen extends StatefulWidget {
   // Bottom sheet
+  @override
+  _TasksScreenState createState() => _TasksScreenState();
+}
+
+class _TasksScreenState extends State<TasksScreen> {
   bool isEnabled = false;
 
-  Widget buildBottomSheet(BuildContext context) => AddTaskScreen();
+  List<Task> tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -21,14 +25,19 @@ class TasksScreen extends StatelessWidget {
           Icons.add,
           size: 40.0,
         ),
-        onPressed: () {
-          showModalBottomSheet(
+        onPressed: () async {
+          await showModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
-                    child: Container(
-                      padding: EdgeInsets.only(
-                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                      child: AddTaskScreen(),
+                    padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                    child: AddTaskScreen(
+                      listCallback: (Task task) {
+                        setState(() {
+                          tasks.add(task);
+                          Navigator.pop(context);
+                        });
+                      },
                     ),
                   ),
               isScrollControlled: true);
@@ -64,7 +73,7 @@ class TasksScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "12 Tasks",
+                  "${tasks.length}",
                   style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
@@ -79,8 +88,8 @@ class TasksScreen extends StatelessWidget {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0))),
-              child: ListView(
-                children: [],
+              child: TaskList(
+                tasks: tasks,
               ),
             ),
           ),

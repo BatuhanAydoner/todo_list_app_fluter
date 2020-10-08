@@ -1,8 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:todo_list_app_fluter/model/task.dart';
+import 'package:todo_list_app_fluter/widgets/task_list_item.dart';
 
 class AddTaskScreen extends StatelessWidget {
+  String title;
+  final Function listCallback;
+
+  AddTaskScreen({this.listCallback});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,15 +40,20 @@ class AddTaskScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
                 decoration: InputDecoration(
                     focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(
-                            width: 5.0, color: Colors.lightBlueAccent))),
-                onChanged: (value) {},
+                        borderSide:
+                            BorderSide(width: 5.0, color: Colors.grey))),
+                onChanged: (value) {
+                  title = value;
+                },
               ),
               SizedBox(
                 height: 10.0,
               ),
               FlatButton(
-                onPressed: () {},
+                onPressed: () {
+                  // Add our task to he list
+                  listCallback(Task(isDone: false, title: title));
+                },
                 child: Text(
                   "Add",
                   style: TextStyle(color: Colors.white),
