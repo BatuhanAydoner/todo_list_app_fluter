@@ -11,7 +11,7 @@ class TaskList extends StatelessWidget {
         return ListView.builder(
           itemCount: taskData.taskCount,
           itemBuilder: (context, index) {
-            final task = taskData.tasks[index];
+            final task = taskData.tasks[index]; // Selected tasks
             return TaskListItem(
               isChecked: task.isDone,
               taskTitle: task.title,
