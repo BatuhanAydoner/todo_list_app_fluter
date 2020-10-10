@@ -1,14 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list_app_fluter/model/task.dart';
-import 'package:todo_list_app_fluter/widgets/task_list_item.dart';
+import 'package:todo_list_app_fluter/model/task_data.dart';
 
 class AddTaskScreen extends StatelessWidget {
   String title;
-  final Function listCallback;
-
-  AddTaskScreen({this.listCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +49,9 @@ class AddTaskScreen extends StatelessWidget {
               ),
               FlatButton(
                 onPressed: () {
-                  // Add our task to he list
-                  listCallback(Task(isDone: false, title: title));
+                  final task = Task(title: title, isDone: false);
+                  Provider.of<TaskData>(context, listen: false).addTask(task);
+                  Navigator.pop(context);
                 },
                 child: Text(
                   "Add",

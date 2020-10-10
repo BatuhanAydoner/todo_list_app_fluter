@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:todo_list_app_fluter/model/task.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list_app_fluter/model/task_data.dart';
 import 'package:todo_list_app_fluter/screens/add_task_screen.dart';
 import 'package:todo_list_app_fluter/widgets/task_list.dart';
 
@@ -11,10 +12,6 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  bool isEnabled = false;
-
-  List<Task> tasks = [];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,19 +23,12 @@ class _TasksScreenState extends State<TasksScreen> {
           size: 40.0,
         ),
         onPressed: () async {
-          await showModalBottomSheet(
+          showModalBottomSheet(
               context: context,
               builder: (context) => SingleChildScrollView(
                     padding: EdgeInsets.only(
                         bottom: MediaQuery.of(context).viewInsets.bottom),
-                    child: AddTaskScreen(
-                      listCallback: (Task task) {
-                        setState(() {
-                          tasks.add(task);
-                          Navigator.pop(context);
-                        });
-                      },
-                    ),
+                    child: AddTaskScreen(),
                   ),
               isScrollControlled: true);
         },
@@ -73,7 +63,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  "${tasks.length}",
+                  "${Provider.of<TaskData>(context).taskCount} Tasks",
                   style: TextStyle(color: Colors.white),
                   textAlign: TextAlign.left,
                 ),
@@ -88,9 +78,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0))),
-              child: TaskList(
-                tasks: tasks,
-              ),
+              child: TaskList(),
             ),
           ),
         ],
