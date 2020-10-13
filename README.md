@@ -1,4 +1,4 @@
-# todo_list_app_fluter
+# Todo List App Flutter ✓
 
 <img src="https://github.com/BatuhanAydonerDev/todo_list_app_fluter/blob/master/app_gif.gif?raw=true" alt="Todo List" width=300>
 
